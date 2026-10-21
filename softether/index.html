@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SoftEther VPN</title>
+  <link rel="stylesheet" href="src/style.css">
+  <script src="../base1/cockpit.js"></script>
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <main>
+    <h1>SoftEther VPN</h1>
+
+    <!-- ─── Tabs ──────────────────────────────────────── -->
+    <nav id="tabs">
+      <button data-tab="login" class="active">Log in</button>
+      <button data-tab="dashboard">Dashboard</button>
+      <button data-tab="server">Server</button>
+      <button data-tab="hubs">VHub</button>
+      <button data-tab="users">Users</button>
+      <button data-tab="logs">Logs</button>
+    </nav>
+
+    <!-- ─── Global Status Bar ────────────────────────── -->
+    <div id="global-status" class="global-status hidden">
+      <span id="global-status-icon" class="status-icon">ℹ</span>
+      <span id="global-status-text"></span>
+      <button id="global-status-close" class="status-close">×</button>
+    </div>
+
+    <!-- ─── Login ─────────────────────────────────────── -->
+    <section id="tab-login" class="tab-panel active">
+      <h2>Server Log-in</h2>
+      <label>Server Address
+        <input id="host" type="text" value="https://127.0.0.1:5555" />
+      </label>
+      <label>Server Password
+        <input id="password" type="password" />
+      </label>
+      <button id="login-btn">Log-in</button>
+      <p id="status">Ready.</p>
+    </section>
+
+    <!-- ─── Dashboard ─────────────────────────────────── -->
+    <section id="tab-dashboard" class="tab-panel hidden">
+      <h2>Dashboard</h2>
+      <div id="dashboard-status">Not connected.</div>
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="value" id="dashboard-hubs">—</div>
+          <div class="label">Hubs</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="value" id="dashboard-users">—</div>
+          <div class="label">Users</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="value" id="dashboard-sessions">—</div>
+          <div class="label">Sessions</div>
+        </div>
+      </div>
+      <h3>Recent Log Entries</h3>
+      <pre id="dashboard-logs">—</pre>
+      <button id="dashboard-refresh">Refresh</button>
+      <button id="dashboard-open-logs">Open Logs Tab</button>
+    </section>
+
+    <!-- ─── Server ────────────────────────────────────── -->
+    <section id="tab-server" class="tab-panel hidden">
+      <h2>Server</h2>
+
+      <!-- Info kartice -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="value" id="server-name">—</div>
+          <div class="label">Server Name</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="value" id="server-version">—</div>
+          <div class="label">Version</div>
+        </div>
+        <div class="dashboard-card">
+          <div class="value" id="server-os">—</div>
+          <div class="label">OS</div>
+        </div>
+      </div>
+
+      <!-- Portovi -->
+      <h3>Listening Ports</h3>
+      <p class="coming-soon">(Read-only — JSON-RPC does not support changing listener ports)</p>
+      <table id="server-ports-table">
+        <thead>
+          <tr>
+            <th>Port</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Bridge-ovi -->
+      <h3>Local Bridges</h3>
+      <p class="coming-soon">(Read-only — JSON-RPC does not support creating/deleting bridges)</p>
+      <table id="server-bridges-table">
+        <thead>
+          <tr>
+            <th>Hub</th>
+            <th>Device</th>
+            <th>Mode</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Refresh dugme na kraju -->
+      <div class="toolbar" style="margin-top: 1rem;">
+        <button id="server-refresh">Refresh</button>
+      </div>
+    </section>
+
+    <!-- ─── V-Hub ─────────────────────────────────────── -->
+    <section id="tab-hubs" class="tab-panel hidden">
+      <h2>Virtual Hubs</h2>
+      <div class="toolbar">
+        <button id="hubs-new">New</button>
+        <button id="hubs-edit" disabled>Edit</button>
+        <button id="hubs-delete" disabled>Delete</button>
+        <button id="hubs-refresh">Refresh</button>
+      </div>
+      <table id="hubs-table">
+        <thead>
+          <tr>
+            <th>Select</th><th>Status</th><th>Hub Name</th><th>Type</th>
+            <th>Users</th><th>Sessions</th><th>Groups</th><th>Logins</th><th>Last Login</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <pre id="hubs-detail" class="hidden"></pre>
+    </section>
+
+    <!-- ─── Users ─────────────────────────────────────── -->
+    <section id="tab-users" class="tab-panel hidden">
+      <h2>Users</h2>
+      <label>Hub
+        <select id="users-hub"></select>
+      </label>
+
+      <div class="user-stats">
+        <div class="stat-card"><div class="value" id="users-stat-total">—</div><div class="label">Total</div></div>
+        <div class="stat-card"><div class="value" id="users-stat-active">—</div><div class="label">Active</div></div>
+        <div class="stat-card"><div class="value" id="users-stat-blocked">—</div><div class="label">Blocked</div></div>
+      </div>
+
+      <div class="toolbar">
+        <button id="users-new">New</button>
+        <!-- Onemogućeno do daljnjeg zbog SoftEther SetUser bug-a -->
+        <button id="users-edit" disabled title="Edit is disabled due to a known SoftEther JSON-RPC bug (SetUser). We are waiting for an official fix.">Edit (Disabled)</button>
+        <button id="users-delete" disabled>Delete</button>
+        <button id="users-refresh">Refresh</button>
+      </div>
+
+      <table id="users-table">
+        <thead>
+          <tr>
+            <th>Select</th><th>Status</th><th>User Name</th><th>Full Name</th>
+            <th>Group</th><th>Description</th><th>Auth Method</th>
+            <th>Num Logins</th><th>Last Login</th><th>Expiration</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <pre id="users-detail" class="hidden"></pre>
+    </section>
+
+    <!-- ─── Logs ──────────────────────────────────────── -->
+    <section id="tab-logs" class="tab-panel hidden">
+      <h2>Logs</h2>
+      <label>Log File
+        <input list="logs-list" id="logs-file" placeholder="Filter by filename..." autocomplete="off">
+        <datalist id="logs-list"></datalist>
+      </label>
+      <div class="toolbar">
+        <input id="logs-search" placeholder="Search in logs..." style="flex: 1; min-width: 200px;" />
+        <button id="logs-search-btn">Search</button>
+        <button id="logs-clear-search">Clear</button>
+      </div>
+      <div class="toolbar">
+        <button id="logs-refresh">Refresh</button>
+        <button id="logs-merge">Merge Page</button>
+        <button id="logs-prev">◀ Prethodnih 10</button>
+        <button id="logs-next">Sledećih 10 ▶</button>
+        <span id="logs-page-info" style="margin-left: auto; align-self: center;">Strana 0/0</span>
+        <button id="logs-copy">Copy</button>
+      </div>
+      <pre id="logs-content"></pre>
+      <p id="logs-status"></p>
+    </section>
+  </main>
+
+  <!-- ─── Footer ────────────────────────────────────── -->
+  <footer style="margin-top: 2rem; padding: 1rem 0; border-top: 1px solid var(--se-border); font-size: 0.85em; color: var(--se-text-muted); text-align: center;">
+    <a href="README.md" target="_blank" style="color: var(--se-text-muted); text-decoration: none; margin: 0 10px;">Documentation (README)</a>
+    <a href="LICENSE" target="_blank" style="color: var(--se-text-muted); text-decoration: none; margin: 0 10px;">License (GPL-3.0)</a>
+    <a href="ACKNOWLEDGEMENTS.md" target="_blank" style="color: var(--se-text-muted); text-decoration: none; margin: 0 10px;">Acknowledgements</a>
+  </footer>
+
+  <!-- ─── Modal: Hub ─────────────────────────────────── -->
+  <div id="hub-modal" class="modal hidden">
+    <div class="modal-content modal-large">
+      <h3 id="hub-modal-title">Hub Properties</h3>
+      <div class="modal-section">
+        <div class="modal-section-title">General</div>
+        <label>Hub Name <input id="hub-modal-name" type="text" placeholder="e.g. VPN-HUB" /></label>
+        <label>Type
+          <select id="hub-modal-type" disabled>
+            <option value="0">Standalone</option><option value="1">Static</option><option value="2">Dynamic</option>
+          </select>
+          <small class="coming-soon">(Type can only be changed on Clustered VPN Servers)</small>
+        </label>
+        <label class="checkbox-label"><input id="hub-modal-online" type="checkbox" /> Online</label>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Options</div>
+        <label>Max Sessions
+         <input id="hub-modal-maxsession" type="number" value="0" min="0" />
+         <small>(0 = unlimited)</small>
+        </label>
+        <label class="checkbox-label"><input id="hub-modal-noenum" type="checkbox" /> No Enumerate (hide from anonymous)</label>
+        <label class="disabled">Access List <input type="checkbox" disabled /> <small class="coming-soon">(coming soon)</small></label>
+        <label class="disabled">Max MAC Addresses <input type="number" value="0" disabled /> <small class="coming-soon">(coming soon)</small></label>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Security</div>
+        <label>Admin Password <input id="hub-modal-adminpass" type="password" placeholder="(leave empty to keep current)" /></label>
+        <label>Confirm Password <input id="hub-modal-adminpass-confirm" type="password" /></label>
+        <label class="disabled">Hashed Password <input type="text" value="—" disabled /> <small class="coming-soon">(coming soon)</small></label>
+      </div>
+      <div class="modal-buttons">
+        <button id="hub-modal-cancel">Cancel</button>
+        <button id="hub-modal-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Modal: User ────────────────────────────────── -->
+  <div id="user-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3 id="user-modal-title">New User</h3>
+      <label>User Name <input id="user-modal-name" type="text" placeholder="e.g. vpnuser" /></label>
+      <label>Full Name <input id="user-modal-realname" type="text" placeholder="e.g. John Doe" /></label>
+      <label>Group <input id="user-modal-group" type="text" placeholder="(optional)" /></label>
+      <label>Description <input id="user-modal-note" type="text" placeholder="(optional)" /></label>
+      <label>Auth Method
+        <select id="user-modal-authtype">
+          <option value="0">Anonymous</option><option value="1">Password (SHA-0)</option><option value="2">Password (Plain)</option><option value="3">Certificate</option>
+        </select>
+      </label>
+      <label>Password <input id="user-modal-password" type="password" placeholder="(only for password auth)" /></label>
+      <label class="checkbox-label"><input id="user-modal-deny" type="checkbox" /> Deny Access (block user)</label>
+      <div class="modal-buttons">
+        <button id="user-modal-cancel">Cancel</button>
+        <button id="user-modal-save">Save</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

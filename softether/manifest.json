@@ -1,0 +1,12 @@
+{
+  "version": 0,
+  "name": "softether",
+  "description": "SoftEther VPN management",
+  "tools": {
+    "index.html": {
+      "label": "SoftEther VPN",
+      "order": 50
+    }
+  },
+  "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'"
+}

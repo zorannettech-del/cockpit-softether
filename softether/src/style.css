@@ -1,0 +1,545 @@
+/* ─── Theme variables ─── */
+:root {
+  --se-bg: #ffffff;
+  --se-bg-alt: #f5f5f5;
+  --se-border: #d2d2d2;
+  --se-text: #151515;
+  --se-text-muted: #666666;
+}
+
+html.pf-theme-dark {
+  --se-bg: #1b1d21;
+  --se-bg-alt: #2a2a2a;
+  --se-border: #444548;
+  --se-text: #e0e0e0;
+  --se-text-muted: #aaabac;
+}
+
+/* ─── Base ─── */
+body {
+  background: var(--se-bg);
+  color: var(--se-text);
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+section {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+input, button, select {
+  margin-top: 0.25rem;
+  padding: 0.4rem;
+  background: var(--se-bg-alt);
+  color: var(--se-text);
+  border: 1px solid var(--se-border);
+  border-radius: 3px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--se-border);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Tabs ─── */
+#tabs {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--se-border);
+}
+
+#tabs button {
+  margin-right: 0.25rem;
+  padding: 0.4rem 0.8rem;
+  background: transparent;
+  color: var(--se-text);
+  border: 1px solid transparent;
+  border-bottom: none;
+  cursor: pointer;
+}
+
+#tabs button:hover {
+  background: var(--se-bg-alt);
+}
+
+#tabs button.active {
+  font-weight: bold;
+  border: 1px solid var(--se-border);
+  border-bottom: 1px solid var(--se-bg);
+  margin-bottom: -1px;
+  background: var(--se-bg);
+}
+
+.tab-panel.hidden {
+  display: none;
+}
+
+/* ─── Table ─── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+th, td {
+  border: 1px solid var(--se-border);
+  padding: 4px 8px;
+  text-align: left;
+}
+
+th {
+  background: var(--se-bg-alt);
+}
+
+tbody tr:hover {
+  background: var(--se-bg-alt);
+  cursor: pointer;
+}
+
+/* ─── Status ─── */
+#status,
+#dashboard-status {
+  margin-top: 0.75rem;
+  font-family: monospace;
+  padding: 0.4rem 0.6rem;
+  background: var(--se-bg-alt);
+  border-left: 3px solid var(--se-border);
+  color: var(--se-text);
+}
+
+#dashboard-status {
+  margin-bottom: 1rem;
+}
+
+/* ─── Pre ─── */
+pre {
+  background: var(--se-bg-alt);
+  color: var(--se-text);
+  padding: 0.75rem;
+  overflow: auto;
+  max-height: 600px;
+  font-size: 0.85em;
+  line-height: 1.5;
+  border: 1px solid var(--se-border);
+  border-radius: 3px;
+  font-family: 'Red Hat Mono', 'Consolas', monospace;
+}
+
+/* ─── Dashboard ─── */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.dashboard-card {
+  border: 1px solid var(--se-border);
+  background: var(--se-bg);
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.dashboard-card .value {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.dashboard-card .label {
+  font-size: 0.9em;
+  color: var(--se-text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ─── Step PatternFly white bck.grnd. ─── */
+.pf-c-page,
+.pf-c-page__main,
+.pf-c-page__main-section {
+  background: var(--se-bg) !important;
+  color: var(--se-text) !important;
+}
+
+/* ─── Toolbar ──────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Selected row ─────────────────────────────────── */
+tr.selected {
+  background: var(--se-bg-alt) !important;
+  outline: 2px solid var(--se-border);
+}
+
+/* ─── Modal ─── */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--se-bg);
+  color: var(--se-text);
+  border: 1px solid var(--se-border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* ─── Radio selection ─── */
+#hubs-table input[type="radio"] {
+  cursor: pointer;
+  transform: scale(1.3);
+  accent-color: var(--se-text);
+}
+
+#hubs-table td:first-child {
+  text-align: center;
+  width: 60px;
+}
+
+/* ─── Global status bar ─── */
+.global-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--se-border);
+  background: var(--se-bg-alt);
+  color: var(--se-text);
+  font-size: 0.9em;
+}
+
+.global-status.hidden {
+  display: none;
+}
+
+.global-status .status-icon {
+  font-size: 1.1em;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.global-status .status-close {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--se-text-muted);
+  cursor: pointer;
+  font-size: 1.3em;
+  padding: 0 0.3rem;
+  line-height: 1;
+}
+
+.global-status .status-close:hover {
+  color: var(--se-text);
+}
+
+.global-status.info {
+  border-left: 4px solid #0066cc;
+}
+.global-status.info .status-icon {
+  color: #0066cc;
+}
+
+.global-status.success {
+  border-left: 4px solid #3e8635;
+}
+.global-status.success .status-icon {
+  color: #3e8635;
+}
+
+.global-status.warning {
+  border-left: 4px solid #f0ab00;
+}
+.global-status.warning .status-icon {
+  color: #f0ab00;
+}
+
+.global-status.error {
+  border-left: 4px solid #c9190b;
+}
+.global-status.error .status-icon {
+  color: #c9190b;
+}
+
+/* ─── User stats ─── */
+.user-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  border: 1px solid var(--se-border);
+  background: var(--se-bg-alt);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-align: center;
+  min-width: 100px;
+}
+
+.stat-card .value {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--se-text);
+}
+
+.stat-card .label {
+  font-size: 0.85em;
+  color: var(--se-text-muted);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Toolbar ─── */
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#logs-page-info {
+  font-weight: 500;
+  color: var(--se-text-muted);
+  padding: 0 0.5rem;
+}
+
+/* ─── Radio selection ─── */
+#hubs-table input[type="radio"],
+#users-table input[type="radio"] {
+  cursor: pointer;
+  transform: scale(1.3);
+  accent-color: var(--se-text);
+}
+
+#hubs-table td:first-child,
+#users-table td:first-child {
+  text-align: center;
+  width: 60px;
+}
+
+/* ─── Modal Large ─── */
+.modal-large {
+  min-width: 600px;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* ─── Modal Sections ─── */
+.modal-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--se-border);
+}
+
+.modal-section:last-of-type {
+  border-bottom: none;
+}
+
+.modal-section-title {
+  font-size: 0.95em;
+  font-weight: 600;
+  color: var(--se-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.modal-section-title.collapsible {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-section-title.collapsible:hover {
+  color: var(--se-text);
+}
+
+.toggle-icon {
+  font-size: 0.8em;
+  transition: transform 0.2s;
+}
+
+.toggle-icon.open {
+  transform: rotate(90deg);
+}
+
+/* ─── Checkbox Label ─── */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+/* ─── Disabled ─── */
+label.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+label.disabled input,
+label.disabled select {
+  cursor: not-allowed;
+}
+
+.coming-soon {
+  display: block;
+  color: var(--se-text-muted);
+  font-style: italic;
+  font-size: 0.8em;
+  margin-top: 0.25rem;
+}
+
+label small {
+  display: block;
+  color: var(--se-text-muted);
+  font-size: 0.8em;
+  margin-top: 0.25rem;
+  font-style: normal;
+}
+/* ─── Number input  ─── */
+input[type="number"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 1em;
+  text-align: left;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* ─── Input sa +/-  ─── */
+.input-with-buttons {
+  display: flex;
+  gap: 0.25rem;
+  align-items: stretch;
+}
+
+.input-with-buttons button {
+  width: 40px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  background: var(--se-bg-alt);
+  border: 1px solid var(--se-border);
+  color: var(--se-text);
+}
+
+.input-with-buttons button:hover {
+  background: var(--se-border);
+}
+
+.input-with-buttons input {
+  flex: 1;
+  text-align: center;
+}
+.hidden {
+  display: none !important;
+}
+/* ─── Server Cards (Compact) ─── */
+#tab-server .dashboard-card {
+  padding: 0.75rem;
+}
+
+#tab-server .dashboard-card .value {
+  font-size: 1.4em;
+  word-break: break-word;
+}
+
+#tab-server .dashboard-card .label {
+  font-size: 0.8em;
+}
+#tab-server h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+#tab-server .dashboard-grid {
+  margin-bottom: 0.5rem;
+}
